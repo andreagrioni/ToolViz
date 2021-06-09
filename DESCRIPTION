@@ -1,19 +1,26 @@
 Package: ToolViz
-Title: What the Package Does (One Line, Title Case)
+Title: ToolViz
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
-           role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    person(given = "Andrea",
+           family = "Grioni",
+           role = c("aut"),
+           email = "andrea.grioni@novartis.com",
+           comment = c(ORCID = "0000-0003-3268-2918"))
+Description: R code for Visualization of omics data.
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+  tidyr,
+  dplyr,
+  forcats,
+  scales,
+  ggplot2,
+  ggdist
 Suggests: 
     knitr,
     rmarkdown

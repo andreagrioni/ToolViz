@@ -330,7 +330,7 @@ plot_raincloud <- function(
 #' draw_heatmap(digested_adat$complete, "PlateId")
 #' @export
 #' @importFrom forcats as_factor
-#' @import tidyr
+#' @import tidyr dplyr
 draw_heatmap <- function(
   table,
   color_by,
