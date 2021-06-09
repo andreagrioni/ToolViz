@@ -6,7 +6,7 @@ Grioni, Andrea
 # Installation
 
 ``` r
-devtools::install_github("andreagrioni/cautious-doodle")
+devtools::install_github("andreagrioni/ToolViz")
 ```
 
 ``` r
