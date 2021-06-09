@@ -1,8 +1,7 @@
 Package: ToolViz
 Title: ToolViz
 Version: 0.0.0.9000
-Authors@R: 
-    person(given = "Andrea",
+Authors@R: person(given = "Andrea",
            family = "Grioni",
            role = c("aut"),
            email = "andrea.grioni@novartis.com",
