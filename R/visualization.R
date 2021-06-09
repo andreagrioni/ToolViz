@@ -116,7 +116,7 @@ wide_to_long_soma <- function(
 #' scales_grid = 'free_y', spaghetti='SUBJID',
 #' stats=TRUE)
 #' @export
-#' @import glue ggplot2 dplyr logger
+#' @import glue ggplot2 dplyr
 plot_dist <- function(
   data,
   x=NULL,
@@ -234,7 +234,7 @@ plot_dist <- function(
 #' x='time_idx',  group_ids="ARM", x_rot=90,
 #' spaghetti='SUBJID', stats=TRUE)
 #' @export
-#' @import glue ggplot2 dplyr logger
+#' @import glue ggplot2 dplyr
 plot_raincloud <- function(
   data,
   x=NULL,
