@@ -3,6 +3,12 @@ ToolViz
 Grioni, Andrea
 2021-06-09
 
+# Installation
+
+``` r
+devtools::install_github("andreagrioni/cautious-doodle")
+```
+
 ``` r
 library(ToolViz)
 #> Warning: replacing previous import 'dplyr::collapse' by 'glue::collapse' when
@@ -47,7 +53,7 @@ plot_raincloud(
 #> Coordinate system already present. Adding new coordinate system, which will replace the existing one.
 ```
 
-![](/tmp/RtmpUCrPex/preview-c12c69c03a4a.dir/ToolViz_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
+![](reference/figures/figure.1.png)<!-- -->
 
 ``` r
 #ggsave("PATH/TO/FILE.png", dpi=300, width = 15, height=15)
@@ -92,7 +98,7 @@ ToolViz::plot_dist(
 #> Warning: `fun.y` is deprecated. Use `fun` instead.
 ```
 
-![](/tmp/RtmpUCrPex/preview-c12c69c03a4a.dir/ToolViz_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](reference/figures/figure.2.png)<!-- -->
 
 ``` r
 #ggsave("PATH/TO/FILE.png", dpi=300, width = 15, height=15)
@@ -122,7 +128,7 @@ draw_heatmap(
   text_size=4)
 ```
 
-![](/tmp/RtmpUCrPex/preview-c12c69c03a4a.dir/ToolViz_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](reference/figures/figure.3.png)<!-- -->
 
 ``` r
 #ggsave("PATH/TO/FILE.png", dpi=300, width = 15, height=15)

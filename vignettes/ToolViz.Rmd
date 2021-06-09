@@ -18,6 +18,12 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Installation
+
+```{r, eval=F, echo=T}
+devtools::install_github("andreagrioni/cautious-doodle")
+```
+
 ```{r setup}
 library(ToolViz)
 data("test_data")
