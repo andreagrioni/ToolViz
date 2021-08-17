@@ -337,7 +337,7 @@ draw_heatmap <- function(
   text_by=NULL,
   title="heatmap",
   text_size=4
-  )
+)
 {
   working_tbl <- table %>% dplyr::rename( color_col = .data[[color_by]])
   # # fix colors
@@ -347,7 +347,7 @@ draw_heatmap <- function(
                        unique())
   targets <- c(
     "PlateId", "row_location", "column_location", "PlatePosition", "color_col", text_by)
-
+  
   working_tbl %>% separate(
     PlatePosition,
     into=c("column_location", "row_location"),
@@ -355,7 +355,7 @@ draw_heatmap <- function(
     mutate(row_location=as.numeric(row_location)) %>%
     arrange(desc(column_location), row_location) %>%
     mutate(row_location=as.character(row_location)) -> working_tbl
-
+  
   column_location = rev(LETTERS[seq( from = 1, to = 8 )])
   row_location = seq(c(1:12)) %>% as.character()
   dummy_grid <- expand.grid(
