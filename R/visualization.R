@@ -400,3 +400,28 @@ draw_heatmap <- function(
   multiplot_ <- multiplot_ + facet_wrap(~ PlateId)
   return(multiplot_)
 }
+#' create distribution plot for aptamers
+#' 
+#' @param table a table with expression values.
+#' @param title main plot title.
+#' @param colors_fix named vector with color groups.
+#' @param color_by color by column value.
+#' @return distribution plot
+#' @examples
+#' plot_distribution(digested_adat$complete, "a dist plot", color_by='ARMCD')
+#' @export
+#' @importFrom dplyr select starts_with
+#' @importFrom tidyr pivot_longer 
+#' @importFrom glue glue
+#' @import ggplot2
+plot_distribution <- function (
+  table, title=NULL, colors_fix=NULL, color_by=NULL) {
+  table %>% 
+    select(starts_with('seq.'), `color_by` ) %>%
+    pivot_longer(!`color_by`) %>% 
+    ggplot() + 
+    geom_density(aes_string(x="value", color=color_by )) + 
+    ggtitle(glue({title})) + 
+    xlab("intensity") + ylab("density") + 
+    scale_color_manual(values=colors_fix)
+}
