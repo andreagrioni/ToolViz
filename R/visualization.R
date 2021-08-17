@@ -461,3 +461,144 @@ autocorrelation <- function(
    add_column('SeqId'=names(correlation)) %>%
    add_column('aptamers'=comp_name)
 }
+#' Scatterplot of two input tables.
+#' 
+#' @param x first input table with aptamer seq columns
+#' @param y second input table with aptamer seq columns
+#' @param sample_size fit line on n sample (default=5)
+#' @param title main plot title
+#' @param aptamers_name vector of aptamers col names (extract from table if NULL)
+#' @return ggplot object.
+#' @examples
+#' plot_distscatter(digested_adat$complete_log2, digested_adat$postproces)
+#' @export
+#' @import dplyr
+#' @import ggplot2
+#' @importFrom stats lm
+plot_distscatter <- function(
+  x=table_a, y=table_b, sample_size=5, title="scatterplot", aptamers_name=NULL) {
+  if (is.null(aptamers_name)) {
+    x %>% 
+      select(starts_with('seq.')) %>% 
+      colnames -> aptamers_name
+  }
+  x %>% 
+    select(SampleId, all_of(aptamers_name)) %>% 
+    slice_head(n=sample_size ) %>%
+    pivot_longer(
+      cols=!SampleId, 
+      names_to = 'aptamers', 
+      values_to = 'value_x'
+    ) -> raw
+  y %>% 
+    select(SampleId, all_of(aptamers_name)) %>% 
+    slice_head(n=sample_size) %>%
+    pivot_longer(
+      cols=!SampleId, 
+      names_to='aptamers', 
+      values_to='value_y'
+    ) -> postprocess
+  raw %>% 
+    bind_cols(
+      postprocess %>% 
+        select(value_y)
+    ) -> methodData
+  fit <- stats::lm(
+    methodData$value_x ~ methodData$value_y
+  )
+  r2_value = format(
+    summary(fit)$adj.r.squared, digits=4
+  )
+  methodData %>% ggplot() + 
+    geom_point(aes(x=value_x, y=value_y)) + 
+    ggtitle(glue("{title}\tr2={r2_value}"))
+}
+#' Lineplot of calibrators/norm and alignments.
+#' 
+#' @param table digested_adat table
+#' @param target input is calibrators or raw/normalized RFU table
+#' @param log2 do log2 transformation of RFU values
+#' @param title main plot title
+#' @param x_lab label for x axis
+#' @param sample_f subset table to build dist_plot norm def. 0.2 (float between 0 and 1)
+#' @param log write to log file (def.TRUE)
+#' @return ggplot object.
+#' @examples
+#' plot_distline(digested_adat$calibrators, target="calibrators", log2=TRUE, title="calibrators", x_lab="RFU")
+#' @export
+#' @import dplyr
+#' @import ggplot2
+#' @importFrom forcats fct_reorder
+plot_distline <- function(
+  table, 
+  target='calibrators', 
+  log2=FALSE, 
+  title=target, 
+  x_lab=NULL,
+  aptamer_tag='seq.',
+  sample_f = 0.2,
+  log=TRUE
+  ) { 
+  # reassign column names
+  if (target=='calibrators') {
+    table %>% rename(Samples = Barcode) -> data
+  } else if (target=='norm') {
+    table %>% 
+    rename(Samples = SampleId) %>% 
+    sample_frac(sample_f) -> data 
+  } else {
+    if (log) {
+      log_info("unknown value for target:\t{target}")
+    }
+    return(NULL)
+  }
+  # pivot longer
+  data %>% 
+    select(
+      starts_with(aptamer_tag), PlateId, Samples
+    ) %>% 
+    pivot_longer(!c("PlateId", "Samples")
+    ) -> data_long
+  if (log2) {
+    data_long  %>%
+      mutate(RFU=log2(value)) -> data_long
+    if (is.null(x_lab)) {
+      x_lab = glue("log2(RFU)")
+    }
+    else {
+      x_lab = glue("log2({x_lab})")
+    }
+  } else {
+    data_long  %>%
+      mutate(RFU=value) -> data_long
+    if (is.null(x_lab)) {
+      x_lab = glue("RFU")
+    }
+  }
+  data_long %>% 
+    mutate(
+      Samples=fct_reorder(
+        Samples, desc(PlateId))) -> data_long
+  # generate plot
+  data_long %>%
+    ggplot(aes(y=Samples, x=RFU)) + 
+    geom_line(aes(color=PlateId))  +
+    theme_minimal() +
+    labs(
+      x = glue("{x_lab} [red dot: median]"),
+      y = "Samples",
+      title = glue("Alignment of {title}")
+    ) + theme(
+      axis.ticks.y=element_blank(),
+      axis.text.y=element_blank(),
+      legend.position="right"
+    ) + stat_summary(
+      fun=median,
+      geom="point",
+      shape=20,
+      size=2,
+      color="red",
+      fill="red"
+    ) -> plot
+  return(plot)
+}
