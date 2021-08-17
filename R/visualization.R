@@ -425,3 +425,39 @@ plot_distribution <- function (
     xlab("intensity") + ylab("density") + 
     scale_color_manual(values=colors_fix)
 }
+#' compute correlation between aptamers in dataframe A and dataframe B
+#' 
+#' @param df_a dataframe A
+#' @param df_b dataframe B.
+#' @param corr_type correlation method (see ?correlate).
+#' @param comp_name column name for correlation values.
+#' @param sample_aptamers autocorrelate for N aptamers (1000)
+#' @return correlation dataframe
+#' @examples
+#' autocorrelation(table_1, table_2)
+#' @export
+#' @importFrom corrr correlate
+#' @importFrom dplyr pull
+#' @importFrom tibble as_tibble add_column
+autocorrelation <- function(
+  df_a, df_b, corr_type="spearman", comp_name='correlation', sample_aptamers=1000) {
+
+  get_corr <- function(aptamer, df_a, df_b, corr_type) {
+    correlate(
+      df_a %>% pull(aptamer),
+      df_b %>% pull(aptamer), 
+      method=corr_type, 
+      quiet=TRUE
+    ) %>% 
+      pull(x)
+  }
+  aptamers_name = df_a %>% 
+    select(starts_with('seq')) %>% 
+    colnames() %>% 
+    sample(size=sample_aptamers)
+  correlation <- sapply(
+    aptamers_name, get_corr, df_a=df_a, df_b=df_b, corr_type=corr_type )
+  corr_data <- as_tibble(correlation) %>% 
+   add_column('SeqId'=names(correlation)) %>%
+   add_column('aptamers'=comp_name)
+}
