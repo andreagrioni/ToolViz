@@ -4,7 +4,14 @@
 \alias{hemo_plot}
 \title{plot hemolyzed samples vs normal.}
 \usage{
-hemo_plot(accepted, rm_visual, rm_hba, hemo_id = "seq.4915.64")
+hemo_plot(
+  accepted,
+  rm_visual,
+  rm_hba,
+  hemo_id = "seq.4915.64",
+  interactive = TRUE,
+  title
+)
 }
 \arguments{
 \item{accepted}{table of accepted samples}
@@ -14,6 +21,10 @@ hemo_plot(accepted, rm_visual, rm_hba, hemo_id = "seq.4915.64")
 \item{rm_hba}{table of filtered by aptamer value}
 
 \item{hemo_id}{aptamer colname}
+
+\item{interactive}{draw an interactive plotly}
+
+\item{title}{set main title}
 }
 \value{
 boxplot of aptamer distribution by class
