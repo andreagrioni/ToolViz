@@ -10,10 +10,10 @@
 #' biplotly(t_wdf$df, x="PC1", y="PC2", color="ARM", pca_obj = t_wdf$pca_obj)
 #' @import plotly glue
 #' @export
-biplotly <- function(table, x="PC1", y="PC2", color="ARM", pca_obj=NULL) {
+biplotly <- function(table, x="PC1", y="PC2", color="ARM", pca_obj=NULL, title=NULL) {
   x_lab = if (!is.null(pca_obj)) {glue("{x} % variance: {round(pca_obj$variance[[x]], 2)}") } else {glue("{x}")}
   y_lab = if (!is.null(pca_obj)) {glue("{y} % variance: {round(pca_obj$variance[[y]], 2)}") } else {glue("{y}")}
-  title_ = glue("PCs Comp {x} vs {y}")
+  title_ = if (is.null(title)) { glue("PCs Comp {x} vs {y}") } else { title }
   # draw plot
   plot_ly(
     data=table,
@@ -38,7 +38,6 @@ biplotly <- function(table, x="PC1", y="PC2", color="ARM", pca_obj=NULL) {
     plotly::layout(
       title = glue(title_),
       xaxis = list(title = glue(x_lab)),
-      yaxis = list(title = glue(y_lab)),
-      legend = list(title=list(text='<b> treatment arm </b>'))
+      yaxis = list(title = glue(y_lab))
     )
 }
