@@ -5,9 +5,10 @@
 #' @param y y value
 #' @param color color by feature
 #' @param pca_obj PCAtools::pca object
+#' @param title add main title to plot
 #' @return plotly scatterplot of components
 #' @examples
-#' biplotly(t_wdf$df, x="PC1", y="PC2", color="ARM", pca_obj = t_wdf$pca_obj)
+#' biplotly(t_wdf$df, x="PC1", y="PC2", color="ARM", pca_obj = t_wdf$pca_obj, title="TEST PCA")
 #' @import plotly glue
 #' @export
 biplotly <- function(table, x="PC1", y="PC2", color="ARM", pca_obj=NULL, title=NULL) {

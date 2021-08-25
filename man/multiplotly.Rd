@@ -9,7 +9,8 @@ multiplotly(
   color = "ARM",
   pca_obj = NULL,
   marker_size = 4,
-  show_legend = TRUE
+  show_legend = TRUE,
+  show_scale = F
 )
 }
 \arguments{
@@ -21,7 +22,9 @@ multiplotly(
 
 \item{marker_size}{marker size}
 
-\item{show_legend}{Def. TRUE}
+\item{show_legend}{show discrete scale (def. TRUE)}
+
+\item{show_scale}{show continuous scale (def. FALSE)}
 }
 \value{
 multiple plotly scatterplot of components

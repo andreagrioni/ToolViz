@@ -4,7 +4,14 @@
 \alias{biplotly}
 \title{PCA biplot interactive with plotly}
 \usage{
-biplotly(table, x = "PC1", y = "PC2", color = "ARM", pca_obj = NULL)
+biplotly(
+  table,
+  x = "PC1",
+  y = "PC2",
+  color = "ARM",
+  pca_obj = NULL,
+  title = NULL
+)
 }
 \arguments{
 \item{table}{matrix of aptamer values and metadata}
@@ -16,6 +23,8 @@ biplotly(table, x = "PC1", y = "PC2", color = "ARM", pca_obj = NULL)
 \item{color}{color by feature}
 
 \item{pca_obj}{PCAtools::pca object}
+
+\item{title}{add main title to plot}
 }
 \value{
 plotly scatterplot of components
@@ -24,5 +33,5 @@ plotly scatterplot of components
 PCA biplot interactive with plotly
 }
 \examples{
-biplotly(t_wdf$df, x="PC1", y="PC2", color="ARM", pca_obj = t_wdf$pca_obj)
+biplotly(t_wdf$df, x="PC1", y="PC2", color="ARM", pca_obj = t_wdf$pca_obj, title="TEST PCA")
 }
