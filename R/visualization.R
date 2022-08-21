@@ -460,6 +460,7 @@ autocorrelation <- function(
   corr_data <- as_tibble(correlation) %>% 
    add_column('SeqId'=names(correlation)) %>%
    add_column('aptamers'=comp_name)
+  return(corr_data)
 }
 #' Scatterplot of two input tables.
 #' 
